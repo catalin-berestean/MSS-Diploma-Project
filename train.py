@@ -24,7 +24,6 @@ valid_gen = generator(SPE, 'train', 'valid', TRGT, BS, TIB, SR, WIN, HOP, SMPL)
 
 model = BSS_CNN.define(freq_bins = int(WIN/2+1), length = SMPL)
 
-
 H = model.fit_generator(generator=train_gen,
                         steps_per_epoch = SPE,
                         epochs = EPOCHS,
@@ -35,15 +34,4 @@ H = model.fit_generator(generator=train_gen,
                         workers = 4
                         )
 N = np.arange(1, EPOCHS+1)
-
-plt.style.use('ggplot')
-plt.figure()
-plt.plot(N, H.history['loss'], label='train_loss')
-plt.plot(N, H.history['val_loss'], label='val_loss')
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.title('Training Loss')
-plt.legend()
-plt.savefig('output/loss.png')
-
 model.save('output/cnn.hdf5')
